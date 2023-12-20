@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { eventSchema } = require("./Events");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -23,13 +24,13 @@ const userSchema = new Schema({
 		max: 10,
 	},
 	eventsRegistered: {
-		type: [mongoose.Schema.Types.ObjectId],
+		type: [eventSchema],
 		ref: "Events",
 		required: true,
-		max: 4,
+		max: 2,
 	},
 	eventsCreated: {
-		type: [mongoose.Schema.Types.ObjectId],
+		type: [eventSchema],
 		ref: "Events",
 		required: true,
 	},

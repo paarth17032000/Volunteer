@@ -33,6 +33,22 @@ const eventSchema = new Schema({
 		type: Number,
 		required: true,
 	},
+	volunteers: [
+		{
+			name: {
+				type: String,
+				required: true,
+			},
+			email: {
+				type: String,
+				required: true,
+			},
+			phoneNumber: {
+				type: Number,
+				required: true,
+			},
+		},
+	],
 	date: {
 		type: Date,
 		required: true,
@@ -51,7 +67,9 @@ const eventSchema = new Schema({
 	},
 });
 
-module.exports = mongoose.model("Events", eventSchema);
+const Events = mongoose.model("Events", eventSchema);
+
+module.exports = { Events, eventSchema };
 
 // eventDate: {
 //     type: String,
