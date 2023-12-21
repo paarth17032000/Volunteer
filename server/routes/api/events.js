@@ -6,11 +6,8 @@ const {
 } = require("../../controllers/eventsController");
 const router = express.Router();
 
-router
-	.route("/")
-	.get(getAllEvents)
-	.post((req, res) => {
-		req.query.eventId ? registerForAnEvent(req, res) : createEvent(req, res);
-	});
+router.route("/").get(getAllEvents).post(createEvent);
+
+router.route("/:eventId").post(registerForAnEvent);
 
 module.exports = router;

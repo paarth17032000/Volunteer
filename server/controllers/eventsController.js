@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const { Events } = require("../model/Events");
 const User = require("../model/User");
 
@@ -46,26 +47,65 @@ const createEvent = async (req, res) => {
 };
 
 const registerForAnEvent = async (req, res) => {
-	const { userId } = req.body;
-	const eventId = req.query.eventId;
-	console.log(userId, eventId);
-	if (!userId || !eventId) res.status(400).json({ message: "Invalid request." });
-	// when user register event add to events registered section
-	// event in which user register will get user info
-	const validUser = await User.findById(userId);
-	const validEvent = await Events.findById(eventId);
-	if (!validUser || !validEvent) res.status(409).json({ message: "Invalid Event or User!" });
-	const volunteerInfo = {
-		name: validUser.name,
-		email: validUser.email,
-		phoneNumber: validUser.phoneNumber,
-	};
 	try {
-		const updateUser = await User.findByIdAndUpdate(
+		const { userId } = req.body;
+		const eventId = req.params.eventId;
+		console.log(userId, eventId);
+		if (!mongoose.Types.ObjectId.isValid(eventId) || !mongoose.Types.ObjectId.isValid(userId)) {
+			return res.status(400).json({ message: "Invalid Id." });
+		}
+		if (!userId || !eventId) res.status(400).json({ message: "Invalid request." });
+		// when user register event add to events registered section
+		// event in which user register will get user info
+		// user which is registering
+		const validUser = await User.findById(userId);
+		// event in which registering
+		const validEvent = await Events.findById(eventId);
+		if (!validUser || !validEvent) res.status(409).json({ message: "Invalid Event or User!" });
+
+		if (
+			validEvent.volunteers.length > 0 &&
+			validEvent.volunteers.some((volunteerObj) => volunteerObj.email === validUser.email)
+		) {
+			res.status(400).json({ message: "User Already Registered." });
+		}
+		console.log('1')
+
+		if (validEvent.volunteers.length >= validEvent.volunteerRequired) {
+			res.status(400).json({ message: "Event has reached its maximum registrations" });
+		}
+		const volunteerInfo = {
+			name: validUser.name,
+			email: validUser.email,
+			phoneNumber: validUser.phoneNumber,
+		};
+		console.log('2')
+		// event's Host
+		const eventHost = await User.findById(validEvent.userId);
+		const eventIndex = eventHost.eventsCreated.findIndex(
+			(eventObj) => eventObj._id === validEvent._id,
+		);
+		console.log('3')
+		// eventHost.eventsCreated[eventIndex].volunteers.push(volunteerInfo);
+		console.log('4')
+		// await eventHost.save();
+		await User.updateOne(
+			{
+			  _id: validEvent.userId, // Replace with the actual user _id
+			  'eventsCreated._id': eventId,
+			},
+			{
+			  $push: {
+				'eventsCreated.$.volunteers': volunteerInfo,
+			  },
+			}
+		  );
+		const updateUserRegistering = await User.findByIdAndUpdate(
 			userId,
 			{ $push: { eventsRegistered: validEvent } },
 			{ new: true },
 		);
+
 		const updateEvent = await Events.findByIdAndUpdate(
 			eventId,
 			{ $push: { volunteers: volunteerInfo } },
@@ -75,7 +115,9 @@ const registerForAnEvent = async (req, res) => {
 			success: true,
 			message: `${validUser.name} added to ${validEvent.eventName}`,
 		});
-	} catch (err) {}
+	} catch (err) {
+		console.log(err.message);
+	}
 };
 
 module.exports = { getAllEvents, createEvent, registerForAnEvent };

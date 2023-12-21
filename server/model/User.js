@@ -21,7 +21,6 @@ const userSchema = new Schema({
 		type: Number,
 		required: true,
 		min: [10, "Invalid number"],
-		max: 10,
 	},
 	eventsRegistered: {
 		type: [eventSchema],
