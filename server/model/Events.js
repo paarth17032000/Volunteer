@@ -62,7 +62,7 @@ const eventSchema = new Schema({
 		required: true,
 	},
 	upvotes: {
-		type: [Number],
+		type: [mongoose.Schema.Types.ObjectId],
 		required: true,
 	},
 });

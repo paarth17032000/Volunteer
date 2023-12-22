@@ -16,7 +16,7 @@ const createEvent = async (req, res) => {
 	if (duplicate)
 		return res
 			.status(409)
-			.json({ message: "Event with same name and same host already exists." }); //conflict
+			.json({ message: "Event with same name and same host already exists." });
 	const eventHostDetails = await User.findById(userId);
 	try {
 		const result = await Events.create({
@@ -46,15 +46,57 @@ const createEvent = async (req, res) => {
 	}
 };
 
+const getEventDetails = async (req, res) => {
+	try {
+		const eventId = req.params.eventId;
+		if (!mongoose.Types.ObjectId.isValid(eventId)) {
+			return res.status(400).json({ message: "Invalid Id." });
+		}
+		if (!eventId) res.status(400).json({ message: "Invalid request." });
+		const validEvent = await Events.findById(eventId);
+		res.status(201).json(validEvent);
+	} catch (err) {
+		console.log(err.message);
+	}
+};
+
+const deleteEvent = async (req, res) => {
+	try {
+		const eventId = req.params.eventId;
+		if (!mongoose.Types.ObjectId.isValid(eventId)) {
+			return res.status(400).json({ message: "Invalid Id." });
+		}
+		if (!eventId) res.status(400).json({ message: "Invalid request." });
+		// get user's id who created the event
+		const validEvent = await Events.findById(eventId);
+		// removed event from the user that created it
+		await User.findByIdAndUpdate(
+			validEvent.userId,
+			{ $pull: { eventsCreated: { _id: eventId } } },
+			{ new: true },
+		);
+		// update other user eventsCreated
+		await User.updateMany(
+			{ "eventsRegistered._id": eventId },
+			{ $pull: { eventsRegistered: { _id: eventId } } },
+			{ new: true },
+		);
+		await Events.findByIdAndDelete(eventId);
+		res.status(201).json({ message: "Event has been removed" });
+	} catch (err) {
+		console.log(err.message);
+	}
+};
+
 const registerForAnEvent = async (req, res) => {
 	try {
 		const { userId } = req.body;
 		const eventId = req.params.eventId;
 		console.log(userId, eventId);
+		if (!userId || !eventId) res.status(400).json({ message: "Invalid request." });
 		if (!mongoose.Types.ObjectId.isValid(eventId) || !mongoose.Types.ObjectId.isValid(userId)) {
 			return res.status(400).json({ message: "Invalid Id." });
 		}
-		if (!userId || !eventId) res.status(400).json({ message: "Invalid request." });
 		// when user register event add to events registered section
 		// event in which user register will get user info
 		// user which is registering
@@ -69,7 +111,6 @@ const registerForAnEvent = async (req, res) => {
 		) {
 			res.status(400).json({ message: "User Already Registered." });
 		}
-		console.log('1')
 
 		if (validEvent.volunteers.length >= validEvent.volunteerRequired) {
 			res.status(400).json({ message: "Event has reached its maximum registrations" });
@@ -79,27 +120,22 @@ const registerForAnEvent = async (req, res) => {
 			email: validUser.email,
 			phoneNumber: validUser.phoneNumber,
 		};
-		console.log('2')
 		// event's Host
 		const eventHost = await User.findById(validEvent.userId);
 		const eventIndex = eventHost.eventsCreated.findIndex(
 			(eventObj) => eventObj._id === validEvent._id,
 		);
-		console.log('3')
-		// eventHost.eventsCreated[eventIndex].volunteers.push(volunteerInfo);
-		console.log('4')
-		// await eventHost.save();
 		await User.updateOne(
 			{
-			  _id: validEvent.userId, // Replace with the actual user _id
-			  'eventsCreated._id': eventId,
+				_id: validEvent.userId, // Replace with the actual user _id
+				"eventsCreated._id": eventId,
 			},
 			{
-			  $push: {
-				'eventsCreated.$.volunteers': volunteerInfo,
-			  },
-			}
-		  );
+				$push: {
+					"eventsCreated.$.volunteers": volunteerInfo,
+				},
+			},
+		);
 		const updateUserRegistering = await User.findByIdAndUpdate(
 			userId,
 			{ $push: { eventsRegistered: validEvent } },
@@ -120,4 +156,48 @@ const registerForAnEvent = async (req, res) => {
 	}
 };
 
-module.exports = { getAllEvents, createEvent, registerForAnEvent };
+const toggleUpvotesForEvent = async (req, res) => {
+	try {
+		const eventId = req.params.eventId;
+		const userId = req.body.userId;
+		console.log(eventId);
+		if (!userId || !eventId) res.status(400).json({ message: "Invalid request." });
+		if (!mongoose.Types.ObjectId.isValid(eventId) || !mongoose.Types.ObjectId.isValid(userId)) {
+			return res.status(400).json({ message: "Invalid Id." });
+		}
+		console.log(1);
+		const validUser = await User.findById(userId);
+		const validEvent = await Events.findById(eventId);
+		console.log(2);
+		if (!validUser || !validEvent) res.status(409).json({ message: "Invalid Event or User!" });
+		const isUserUpvoteExists = validEvent.upvotes.includes(userId);
+		console.log(3);
+		if (isUserUpvoteExists) {
+			console.log(4);
+			await Events.findByIdAndUpdate(eventId, { $pull: { upvotes: userId } });
+			// upvote not update in user owner eventsCreated
+			await User.findByIdAndUpdate(validEvent.userId, {
+				$pull: { eventsCreated: { upvotes: userId } },
+			});
+		} else {
+			console.log(5);
+			await Events.findByIdAndUpdate(eventId, { $push: { upvotes: userId } });
+			await User.findByIdAndUpdate(validEvent.userId, {
+				$push: { eventsCreated: { upvotes: userId } },
+			});
+		}
+		console.log(6);
+		res.status(201).json({message: 'success'});
+	} catch (err) {
+		console.log(err.message);
+	}
+};
+
+module.exports = {
+	getAllEvents,
+	createEvent,
+	registerForAnEvent,
+	getEventDetails,
+	deleteEvent,
+	toggleUpvotesForEvent,
+};
