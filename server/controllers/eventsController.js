@@ -165,29 +165,23 @@ const toggleUpvotesForEvent = async (req, res) => {
 		if (!mongoose.Types.ObjectId.isValid(eventId) || !mongoose.Types.ObjectId.isValid(userId)) {
 			return res.status(400).json({ message: "Invalid Id." });
 		}
-		console.log(1);
 		const validUser = await User.findById(userId);
 		const validEvent = await Events.findById(eventId);
-		console.log(2);
 		if (!validUser || !validEvent) res.status(409).json({ message: "Invalid Event or User!" });
 		const isUserUpvoteExists = validEvent.upvotes.includes(userId);
-		console.log(3);
 		if (isUserUpvoteExists) {
-			console.log(4);
 			await Events.findByIdAndUpdate(eventId, { $pull: { upvotes: userId } });
 			// upvote not update in user owner eventsCreated
 			await User.findByIdAndUpdate(validEvent.userId, {
 				$pull: { eventsCreated: { upvotes: userId } },
 			});
 		} else {
-			console.log(5);
 			await Events.findByIdAndUpdate(eventId, { $push: { upvotes: userId } });
 			await User.findByIdAndUpdate(validEvent.userId, {
 				$push: { eventsCreated: { upvotes: userId } },
 			});
 		}
-		console.log(6);
-		res.status(201).json({message: 'success'});
+		res.status(201).json({ message: "success" });
 	} catch (err) {
 		console.log(err.message);
 	}
