@@ -125,6 +125,7 @@ const registerForAnEvent = async (req, res) => {
 		const eventIndex = eventHost.eventsCreated.findIndex(
 			(eventObj) => eventObj._id === validEvent._id,
 		);
+		// update event Host volunteer info
 		await User.updateOne(
 			{
 				_id: validEvent.userId, // Replace with the actual user _id
@@ -136,12 +137,26 @@ const registerForAnEvent = async (req, res) => {
 				},
 			},
 		);
+		// update registering user eversRegistered
+		const eventRegisteredObj = {
+			eventName: validEvent.eventName,
+			eventHostInfo: {
+				...validEvent.eventHostInfo,
+				hostId: validEvent.userId,
+			},
+			eventId: validEvent._id,
+		};
 		const updateUserRegistering = await User.findByIdAndUpdate(
 			userId,
-			{ $push: { eventsRegistered: validEvent } },
+			{
+				$push: {
+					eventsRegistered: eventRegisteredObj,
+				},
+			},
+
 			{ new: true },
 		);
-
+		// upating volunteerinfo in Events
 		const updateEvent = await Events.findByIdAndUpdate(
 			eventId,
 			{ $push: { volunteers: volunteerInfo } },

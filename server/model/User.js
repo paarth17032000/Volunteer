@@ -23,8 +23,27 @@ const userSchema = new Schema({
 		min: [10, "Invalid number"],
 	},
 	eventsRegistered: {
-		type: [eventSchema],
-		ref: "Events",
+		type: [
+			{
+				eventName: String,
+				eventHostInfo: {
+					name: {
+						type: String,
+						required: true,
+					},
+					email: {
+						type: String,
+						required: true,
+					},
+					phoneNumber: {
+						type: Number,
+						required: true,
+					},
+					hostId: mongoose.Schema.Types.ObjectId,
+				},
+				eventId: mongoose.Schema.Types.ObjectId,
+			},
+		],
 		required: true,
 		max: 2,
 	},
