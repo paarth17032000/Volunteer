@@ -20,7 +20,7 @@ app.use(logger)
 
 app.use(cors(corsOptions));
 
-app.use('/api/', require('./routes/api/volunteer'))
+app.use('/api/', (req, res) => res.send('Welcome all volunteers API.'))
 app.use('/api/login', require('./routes/api/login'))
 app.use('/api/register', require('./routes/api/register'))
 app.use('/api/events', require('./routes/api/events'))
