@@ -30,7 +30,7 @@ export default function Register() {
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">
 			<form
 				onSubmit={handleregisterFormSubmit}
-				className="flex flex-col items-center gap-y-4 group rounded-lg border border-transparent px-5 py-8 transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30"
+				className="flex flex-col items-center gap-y-4 group rounded-lg border border-transparent px-5 py-8 transition-colors border-gray-300 bg-black dark:border-neutral-700 shadow-2xl shadow-emerald-500/[0.2]"
 			>
 				<h2 className={`mb-3 text-2xl font-semibold`}>Register</h2>
 				<div className="flex flex-col">
@@ -85,7 +85,7 @@ export default function Register() {
 					type="submit"
 					className="border border-white/90 bg-white/90 text-black/90 font-bold w-full rounded-md mt-4 px-4 py-2"
 				>
-					register
+					Register
 				</button>
 			</form>
 		</main>

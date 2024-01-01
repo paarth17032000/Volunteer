@@ -24,7 +24,7 @@ export default function Login() {
 			<form
 				style={{ maxWidth: "700px" }}
 				onSubmit={handleLoginFormSubmit}
-				className="flex flex-col items-center gap-y-4 group rounded-lg border border-transparent px-5 py-8 transition-colors border-gray-300 bg-purple-900 dark:border-neutral-700 dark:bg-neutral-800/30"
+				className="flex flex-col items-center gap-y-4 group rounded-lg border border-transparent px-5 py-8 transition-colors border-gray-300 bg-black dark:border-neutral-700 shadow-2xl shadow-emerald-500/[0.2]"
 			>
 				<h2 className={`mb-3 text-2xl font-semibold`}>Login</h2>
 				<input
