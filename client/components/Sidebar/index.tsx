@@ -61,7 +61,7 @@ export default function Sidebar({ isOpenSidebar, logoutUser }: ISidebar) {
 				</div>
 
 				{!isOpenSidebar ? (
-					<div className="flex flex-col justify-center gap-4 p-4 mx-4">
+					<div className="flex flex-col justify-center gap-4 px-4 mt-16  w-full">
 						{shrinkLinks.map((nav) => {
 							const { name, link } = nav;
 							return (

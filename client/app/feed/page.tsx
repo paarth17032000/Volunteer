@@ -1,17 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
-import useGetAllEvents from "@/utils/hooks/queries/useGetAllEvents";
-import { BiUpvote } from "react-icons/bi";
-import { FaRegThumbsUp } from "react-icons/fa6";
-import { MdInfoOutline } from "react-icons/md";
+import { Event } from "@/utils/interface/interface";
+import FeedEventCard from "@/components/FeedEventCard";
+import EventDetailsModal from "@/components/Modals/EventDetailsModal";
+import CreateNewEvent from "@/components/Modals/CreateNewEvent";
 
 const dummy = [
 	{
@@ -79,82 +71,48 @@ const dummy = [
 
 export default function Feed() {
 	const [open, setOpen] = useState<boolean>(false);
-	const [eventInfo, setEventInfo] = useState<any>();
+	const [openCreateNewEvent, setOpenCreateNewEvent] = useState<boolean>(false);
+	const [eventInfo, setEventInfo] = useState<Event>();
 	// const { allEventsData } = useGetAllEvents();
 	// console.log(allEventsData);
 	return (
 		<div className="min-h-screen w-full">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-10 my-10 mx-4  md:p-24">
+			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 md:px-24 px-4 py-3">
+				<input
+					name="search"
+					type="text"
+					placeholder="search events.."
+					className="px-3 py-2 flex-1 outline-none text-white bg-transparent border border-white/30 rounded-md active-none autofill:bg-transparent"
+				/>
+				<div className="flex flex-row items-center md:gap-8 gap-4">
+					<div className="bg-[#1C1F37] px-6 py-2 rounded-md cursor-pointer">Filters</div>
+					<div
+						onClick={() => setOpenCreateNewEvent(!openCreateNewEvent)}
+						className="border-2 border-[#1C1F37] px-6 py-2 rounded-md cursor-pointer whitespace-nowrap"
+					>
+						Create Event
+					</div>
+				</div>
+			</div>
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-10 my-10 mx-4 md:px-24 md:py-5">
 				{dummy != undefined &&
 					dummy.map((eventObj: any) => (
-						<div className="flex flex-row justify-between bg-[#1C1F37] rounded-md md:px-10 px-6 md:py-5 py-4">
-							<div className="flex flex-col">
-								<div className="text-white text-2xl font-bold tracking-wider capitalize">
-									{eventObj.eventName},{" "}
-									<span className="text-lg"> {eventObj.venue}</span>
-								</div>
-
-								<div className="mt-2">
-									<div className="text-[#676A84]">
-										Date{" "}
-										<span className="text-white">
-											{eventObj.date.slice(0, 10)}
-										</span>
-									</div>
-								</div>
-
-								<div className="mt-1">
-									<div className="text-[#676A84]">
-										Event Created by{" "}
-										<span className="text-white font-medium">
-											{eventObj.eventHostInfo.name}{" "}
-										</span>
-									</div>
-								</div>
-
-								<div className="flex flex-row gap-x-4 items-center mt-2">
-									<div className="flex items-center gap-x-2">
-										<FaRegThumbsUp className="text-lg cursor-pointer" />
-										{eventObj.volunteers.length}
-									</div>
-
-									<div
-										onClick={() => {
-											setOpen(!open);
-											setEventInfo(eventObj);
-										}}
-										className="flex items-center gap-x-1 cursor-pointer"
-									>
-										<MdInfoOutline className="text-xl" />
-										Details
-									</div>
-								</div>
-
-								<div className="md:hidden block capitalize text-white bg-[#141627] px-5 py-1.5 h-fit rounded-xl mt-3 w-fit">
-									{eventObj.eventCategory}
-								</div>
-							</div>
-
-							<div className="md:flex hidden  gap-x-3">
-								<div className="capitalize text-white bg-[#141627] px-5 py-1.5 h-fit rounded-xl">
-									{eventObj.eventCategory}
-								</div>
-							</div>
-						</div>
+						<FeedEventCard
+							key={eventObj._id}
+							eventObj={eventObj}
+							setEventInfo={setEventInfo}
+							open={open}
+							setOpen={setOpen}
+						/>
 					))}
 			</div>
-			<Dialog open={open} onOpenChange={() => setOpen(!open)}>
-				{/* <DialogTrigger>Open</DialogTrigger> */}
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Are you sure absolutely sure?</DialogTitle>
-						<DialogDescription>
-							This action cannot be undone. This will permanently delete your account
-							DialogTrigger and remove your data from our servers.
-						</DialogDescription>
-					</DialogHeader>
-				</DialogContent>
-			</Dialog>
+			{eventInfo != undefined && (
+				<EventDetailsModal open={open} setOpen={setOpen} eventInfo={eventInfo} />
+			)}
+			<CreateNewEvent
+				openCreateNewEvent={openCreateNewEvent}
+				setOpenCreateNewEvent={setOpenCreateNewEvent}
+			/>
 		</div>
 	);
 }

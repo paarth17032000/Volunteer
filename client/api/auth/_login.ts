@@ -1,10 +1,11 @@
 import { BASE_URL } from "@/config/config";
+import { User } from "@/utils/interface/interface";
 import axios from "axios";
 
 interface ILoginResponse {
 	success: boolean;
 	data: {
-		user: any;
+		user: User;
 		accessToken: string;
 	};
 	error: string;
