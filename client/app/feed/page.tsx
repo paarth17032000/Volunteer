@@ -83,18 +83,15 @@ export default function Feed() {
 	// const { allEventsData } = useGetAllEvents();
 	// console.log(allEventsData);
 	return (
-		<div className="min-h-screen p-24 w-full">
-			<div className="grid grid-cols-2 gap-10">
+		<div className="min-h-screen w-full">
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-10 my-10 mx-4  md:p-24">
 				{dummy != undefined &&
 					dummy.map((eventObj: any) => (
-						<div className="flex flex-row justify-between bg-[#1C1F37] rounded-md px-10 py-5">
+						<div className="flex flex-row justify-between bg-[#1C1F37] rounded-md md:px-10 px-6 md:py-5 py-4">
 							<div className="flex flex-col">
 								<div className="text-white text-2xl font-bold tracking-wider capitalize">
 									{eventObj.eventName},{" "}
 									<span className="text-lg"> {eventObj.venue}</span>
-									{/* <span className="capitalize text-sm ml-3 text-white bg-[#141627] px-5 py-2 h-fit rounded-xl">
-										{eventObj.eventCategory}
-									</span> */}
 								</div>
 
 								<div className="mt-2">
@@ -104,8 +101,6 @@ export default function Feed() {
 											{eventObj.date.slice(0, 10)}
 										</span>
 									</div>
-									{/* <div>{eventObj.date.slice(0, 10)}</div> */}
-									{/* <div>{eventObj.venue}</div> */}
 								</div>
 
 								<div className="mt-1">
@@ -134,9 +129,13 @@ export default function Feed() {
 										Details
 									</div>
 								</div>
+
+								<div className="md:hidden block capitalize text-white bg-[#141627] px-5 py-1.5 h-fit rounded-xl mt-3 w-fit">
+									{eventObj.eventCategory}
+								</div>
 							</div>
 
-							<div className="flex gap-x-3">
+							<div className="md:flex hidden  gap-x-3">
 								<div className="capitalize text-white bg-[#141627] px-5 py-1.5 h-fit rounded-xl">
 									{eventObj.eventCategory}
 								</div>

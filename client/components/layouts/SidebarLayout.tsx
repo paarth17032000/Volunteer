@@ -2,35 +2,37 @@
 import React, { ReactNode, useState } from "react";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
+import { useRouter } from "next/navigation";
+import { toastMessage } from "@/utils/Toast";
 // import logout from "@/api/Auth/_logout";
-// import { toastMessage } from "../utils/Toast";
 
 interface LayoutProps {
 	children: ReactNode;
 }
 
 export default function SidebarLayout({ children }: LayoutProps) {
+	const router = useRouter();
 	const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
-	// const isUser = localStorage.getItem("repx-access-token");
-	// if (isUser == null || isUser.length == 0) {
-	// 	router.push("/");
-	// 	return;
-	// }
-	// if (isUser != null) {
-	// 	const checkifTokenExp = JSON.parse(isUser).expirationTime - new Date().getTime();
-	// 	if (checkifTokenExp <= 0) {
-	// 		localStorage.removeItem("repx-access-token");
-	// 		router.push("/");
-	// 		toastMessage("Token Expired!", "error");
-	// 		return;
-	// 	}
-	// }
+	const isUser = localStorage.getItem("access-token");
+	if (isUser == null || isUser.length == 0) {
+		router.push("/");
+		return;
+	}
+	if (isUser != null) {
+		const checkifTokenExp = JSON.parse(isUser).expirationTime - new Date().getTime();
+		if (checkifTokenExp <= 0) {
+			localStorage.removeItem("access-token");
+			router.push("/");
+			toastMessage("Token Expired!", "error");
+			return;
+		}
+	}
 
 	// logout will be async function request in future
 	const logoutUser = async () => {
 		// await logout();
-		// router.push("/");
-		// localStorage.removeItem("repx-access-token");
+		router.push("/");
+		localStorage.removeItem("repx-access-token");
 	};
 	return (
 		<div className="flex min-h-screen text-white bg-[#141627]">

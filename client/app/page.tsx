@@ -24,13 +24,13 @@ export default function Home() {
 		console.log(loginCreds);
 	};
 	return (
-		<main className="flex min-h-screen gap-x-8 items-center justify-center p-24">
+		<main className="flex flex-col md:flex-row min-h-screen gap-0 md:gap-x-8 items-center justify-center p-24 bg-black">
 			<Link href={"/login"}>
-				<CardContainer className="inter-var">
-					<CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[15rem] h-auto rounded-xl p-6 border  ">
+				<CardContainer containerClassName="md:py-20 py-5" className="inter-var">
+					<CardBody className="relative group/card  hover:shadow-2xl hover:shadow-emerald-500/[0.2] border-white/[0.5] w-[15rem] h-auto rounded-xl p-6 border  ">
 						<CardItem
 							translateZ="50"
-							className="text-xl w-full text-center font-bold text-neutral-600 dark:text-white"
+							className="text-xl w-full text-center font-bold text-white/90"
 						>
 							Login
 						</CardItem>
@@ -38,11 +38,11 @@ export default function Home() {
 				</CardContainer>
 			</Link>
 			<Link href={"/register"}>
-				<CardContainer className="inter-var">
-					<CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[15rem] h-auto rounded-xl p-6 border  ">
+				<CardContainer containerClassName="md:py-20 py-5" className="inter-var">
+					<CardBody className="relative group/card  hover:shadow-2xl hover:shadow-emerald-500/[0.2] border-white/[0.5] w-[15rem] h-auto rounded-xl p-6 border  ">
 						<CardItem
 							translateZ="50"
-							className="text-xl w-full text-center font-bold text-neutral-600 dark:text-white"
+							className="text-xl w-full text-center font-bold text-white/90"
 						>
 							Register
 						</CardItem>
