@@ -5,7 +5,6 @@ import axios from "axios";
 interface ILoginResponse {
 	success: boolean;
 	data: {
-		user: User;
 		accessToken: string;
 	};
 	error: string;
