@@ -6,6 +6,7 @@ const logger = require("./middleware/logger");
 const { corsOptions } = require("./config/utils");
 const mongoose = require("mongoose");
 const connectDB = require("./config/connectDB");
+const verifyJwtAuth = require("./middleware/verifyjwt");
 
 const PORT = process.env.PORT || 8000;
 
@@ -22,13 +23,18 @@ app.use(cors(corsOptions));
 
 app.use("/api/login", require("./routes/api/login"));
 app.use("/api/register", require("./routes/api/register"));
-app.use("/api/events", require("./routes/api/events"));
-app.use("/api/user", require("./routes/api/user"));
+app.use("/api/events", verifyJwtAuth, require("./routes/api/events"));
+app.use("/api/user", verifyJwtAuth, require("./routes/api/user"));
 app.use("/api/", (req, res) => res.send("Welcome all volunteers API."));
 
 app.use(function (err, req, res, next) {
 	console.log(err);
-	res.status(500).send(err.message);
+	res.status(err.statusCode || 500).json({
+		success: false,
+		data: null,
+		error: err.statusCode || 500,
+		message: err.message ?? "Internal Server error",
+	});
 });
 
 mongoose.connection.once("open", () => {

@@ -1,25 +1,20 @@
 const { default: mongoose } = require("mongoose");
 const User = require("../model/User");
+const jwt = require("jsonwebtoken");
 
 const userDetails = async (req, res) => {
 	try {
-		const userId = req.params.userId;
-		if (!mongoose.Types.ObjectId.isValid(userId)) {
-			return res.status(400).json({
+		const token = req.headers["authorization"].split(" ")[1];
+		const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_PRIVATE_KEY);
+		const userEmail = decoded.userInfo.email;
+		if (!userEmail)
+			return res.status(401).json({
 				success: false,
 				data: null,
-				error: 400,
-				message: "Invalid Id.",
+				error: 401,
+				message: "Unauthorized",
 			});
-		}
-		if (!userId)
-			res.status(404).json({
-				success: false,
-				data: null,
-				error: 404,
-				message: "User Id is required.",
-			});
-		const foundUser = await User.findById(userId);
+		const foundUser = await User.findOne({ email: userEmail });
 		if (!foundUser) {
 			res.status(404).json({
 				success: false,

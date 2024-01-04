@@ -74,7 +74,7 @@ const loginUser = async (req, res) => {
 					},
 				},
 				process.env.ACCESS_TOKEN_PRIVATE_KEY,
-				{ expiresIn: "30d" },
+				{ expiresIn: "1d" },
 			);
 
 			res.status(200).json({
