@@ -13,20 +13,29 @@ interface LayoutProps {
 export default function SidebarLayout({ children }: LayoutProps) {
 	const router = useRouter();
 	const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
-	const isUser = localStorage.getItem("access-token");
-	if (isUser == null || isUser.length == 0) {
+	const accessToken = document.cookie
+		.split(";")
+		.find((val) => val.slice(0, 13) == " access-token");
+	// console.log(accessToken);
+	if (accessToken === null || accessToken === undefined) {
 		router.push("/");
+		toastMessage("Token Expired!", "error");
 		return;
 	}
-	if (isUser != null) {
-		const checkifTokenExp = JSON.parse(isUser).expirationTime - new Date().getTime();
-		if (checkifTokenExp <= 0) {
-			localStorage.removeItem("access-token");
-			router.push("/");
-			toastMessage("Token Expired!", "error");
-			return;
-		}
-	}
+	// const isUser = localStorage.getItem("access-token");
+	// if (isUser == null || isUser.length == 0) {
+	// 	router.push("/");
+	// 	return;
+	// }
+	// if (isUser != null) {
+	// 	const checkifTokenExp = JSON.parse(isUser).expirationTime - new Date().getTime();
+	// 	if (checkifTokenExp <= 0) {
+	// 		localStorage.removeItem("access-token");
+	// 		router.push("/");
+	// 		toastMessage("Token Expired!", "error");
+	// 		return;
+	// 	}
+	// }
 
 	// logout will be async function request in future
 	const logoutUser = async () => {

@@ -18,8 +18,8 @@ export default function Sidebar({ isOpenSidebar, logoutUser }: ISidebar) {
 	const pathname = usePathname();
 
 	const shrinkLinks = [
-		{ name: "Dashboard", link: "/dashboard" },
-		{ name: "Transactions", link: "/transactions" },
+		{ name: "Dashboard", link: "/feed" },
+		{ name: "User Profile", link: "/user" },
 	];
 
 	// const getSvg = (name: string, active: boolean) => {

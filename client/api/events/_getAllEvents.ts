@@ -1,8 +1,16 @@
+import apiRequestInstance from "@/utils/helperFunctions/AxiosInstance";
+import { Event } from "@/utils/interface/interface";
 import { BASE_URL } from "@/config/config";
-import axios from "axios";
 
-export const getAllEvents = async () => {
-	const result = await axios.get(`${BASE_URL}/events`);
-	const data: any = result.data;
+interface GetAllEventsApiResponse {
+	success: boolean;
+	data: Event[];
+	error: string;
+	message: string;
+}
+
+export const getAllEvents = async (): Promise<GetAllEventsApiResponse> => {
+	const result = await apiRequestInstance.get("/events");
+	const data: GetAllEventsApiResponse = result.data;
 	return data;
 };

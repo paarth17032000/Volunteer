@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import { GlobalAppContext } from "@/context/AppContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,19 +33,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en">
 			<body className={inter.className}>
 				<QueryWrapper>
-					<ToastContainer
-						position="bottom-left"
-						autoClose={5000}
-						hideProgressBar={false}
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss
-						draggable
-						pauseOnHover
-						theme="dark"
-					/>
-					{children}
+					<GlobalAppContext>
+						<ToastContainer
+							position="bottom-left"
+							autoClose={5000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
+							theme="dark"
+						/>
+						{children}
+					</GlobalAppContext>
 				</QueryWrapper>
 			</body>
 		</html>

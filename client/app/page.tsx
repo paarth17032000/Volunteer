@@ -1,11 +1,9 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-import Image from "next/image";
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/Card";
 
-import { PinContainer } from "@/components/3d-pin";
 import Link from "next/link";
 
 export default function Home() {

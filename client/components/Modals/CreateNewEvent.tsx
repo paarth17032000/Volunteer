@@ -7,6 +7,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import useCreateEvent from "@/utils/hooks/mutations/events/useCreateEvent";
+import { useGlobalContext } from "@/context/AppContext";
 
 interface ICreateNewEvent {
 	openCreateNewEvent: boolean;
@@ -18,6 +20,8 @@ export default function CreateNewEvent({
 	openCreateNewEvent,
 	setOpenCreateNewEvent,
 }: ICreateNewEvent) {
+	const { userId } = useGlobalContext();
+	const createEventMutation = useCreateEvent();
 	const [eventCreds, setEventCreds] = useState<{
 		eventName: string;
 		date: string;
@@ -25,6 +29,7 @@ export default function CreateNewEvent({
 		eventCategory: string;
 		volunteerRequired: string;
 		desc: string;
+		userId: string;
 	}>({
 		eventName: "",
 		date: "",
@@ -32,6 +37,7 @@ export default function CreateNewEvent({
 		eventCategory: "",
 		volunteerRequired: "",
 		desc: "",
+		userId: userId,
 	});
 	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setEventCreds({
@@ -41,8 +47,8 @@ export default function CreateNewEvent({
 	};
 	const handleLoginFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(eventCreds);
-		// loginMutation.mutate(loginCreds);
+		createEventMutation.mutate(eventCreds);
+		setOpenCreateNewEvent(!openCreateNewEvent)
 	};
 	return (
 		<Dialog
