@@ -1,9 +1,132 @@
-"use client"
+"use client";
 import { useGlobalContext } from "@/context/AppContext";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
+import { Event, EventsRegistered, User } from "@/utils/interface/interface";
 
 export default function UserProfile() {
 	const { userDetails } = useGlobalContext();
+	// const [userProgi~]
 	console.log(userDetails);
-	return <div>UserProfile</div>;
+	return (
+		<div className="min-h-screen w-full">
+			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 md:px-24 px-5 mt-36">
+				<Tabs defaultValue="user" className="w-full">
+					<TabsList>
+						<TabsTrigger value="user">Profile</TabsTrigger>
+						<TabsTrigger value="create">Events Created</TabsTrigger>
+						<TabsTrigger value="register">Events Registered</TabsTrigger>
+					</TabsList>
+					<TabsContent value="user" className="py-4 px-8">
+						<h1 className="text-xl text-white font-medium">Profile Details</h1>
+						<div className="flex items-center gap-4  mt-4">
+							<div className="text-white/60 font-bold">Name</div>
+							<div className="capitalize ">{userDetails.name}</div>
+						</div>
+						<div className="flex items-center gap-4  mt-4">
+							<div className="text-white/60 font-bold">Email</div>
+							<div className="capitalize ">{userDetails.email}</div>
+						</div>
+						<div className="flex items-center gap-4  mt-4">
+							<div className="text-white/60 font-bold">Number</div>
+							<div className="capitalize ">{userDetails.phoneNumber}</div>
+						</div>
+					</TabsContent>
+					<TabsContent value="create" className="py-4 px-8">
+						<h1 className="text-xl text-white font-medium">Events Created</h1>
+						{userDetails.eventsCreated != undefined &&
+						userDetails.eventsCreated.length > 0 ? (
+							<div className="flex flex-col gap-y-6 mt-5">
+								{userDetails.eventsCreated.map((event: Event) => (
+									<div key={event._id} className="bg-[#141627] p-4 rounded-sm">
+										<div className="flex items-center justify-between gap-4">
+											{/* <div className="">Name</div> */}
+											<div className="capitalize text-white/90 text-2xl font-bold mb-2">
+												{event.eventName}
+											</div>
+											<div className="rounded-md px-3 py-1 bg-red-700 hover:bg-red-600 text-white cursor-pointer">
+												Cancel Event
+											</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">Category</div>
+											<div className="capitalize ">{event.eventCategory}</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">Details</div>
+											<div className="capitalize ">{`${event.date.slice(
+												0,
+												10,
+											)} in ${event.venue}`}</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">
+												Volunteer Required
+											</div>
+											<div className="capitalize ">
+												{event.volunteerRequired}
+											</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">Category</div>
+											<div className="capitalize ">{event.eventCategory}</div>
+										</div>
+									</div>
+								))}
+							</div>
+						) : (
+							<></>
+						)}
+					</TabsContent>
+					<TabsContent value="register" className="py-4 px-8">
+						<h1 className="text-xl text-white font-medium">Events Registered</h1>
+						{userDetails.eventsRegistered != undefined &&
+						userDetails.eventsRegistered.length > 0 ? (
+							<div className="flex flex-col gap-y-6 mt-5">
+								{userDetails.eventsRegistered.map((event: EventsRegistered) => (
+									<div key={event.eventId} className="bg-[#141627] p-4 rounded-sm">
+										<div className="flex items-center justify-between gap-4">
+											{/* <div className="">Name</div> */}
+											<div className="capitalize text-white/90 text-2xl font-bold mb-2">
+												{event.eventName}
+											</div>
+											<div className="rounded-md px-3 py-1 bg-red-700 hover:bg-red-600 text-white cursor-pointer">
+												Cancel Event
+											</div>
+										</div>
+										{/* <div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">Category</div>
+											<div className="capitalize ">{event.eventCategory}</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">Details</div>
+											<div className="capitalize ">{`${event.date.slice(
+												0,
+												10,
+											)} in ${event.venue}`}</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">
+												Volunteer Required
+											</div>
+											<div className="capitalize ">
+												{event.volunteerRequired}
+											</div>
+										</div>
+										<div className="flex items-center gap-4">
+											<div className="text-white/60 font-bold">Category</div>
+											<div className="capitalize ">{event.eventCategory}</div>
+										</div> */}
+									</div>
+								))}
+							</div>
+						) : (
+							<></>
+						)}
+					</TabsContent>
+				</Tabs>
+			</div>
+		</div>
+	);
 }

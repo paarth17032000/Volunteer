@@ -22,21 +22,23 @@ export interface Event {
 	upvotes: string;
 }
 
+export interface EventsRegistered {
+	eventName: string;
+	eventHostInfo: {
+		name: string;
+		email: string;
+		phoneNumber: number;
+		hostId: string;
+	};
+	eventId: string;
+}
+
 export interface User {
 	_id: string;
 	name: string;
 	email: string;
 	password: string;
 	phoneNumber: number;
-	eventsRegistered: {
-		eventName: string;
-		eventHostInfo: {
-			name: string;
-			email: string;
-			phoneNumber: number;
-			hostId: string;
-		};
-		eventId: string;
-	}[];
-	eventsCreated: Event;
+	eventsRegistered: EventsRegistered[];
+	eventsCreated: Event[];
 }
