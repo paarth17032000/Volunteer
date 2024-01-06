@@ -1,14 +1,17 @@
 "use client";
+import InputFieldComponent from "@/components/InputFieldComponent";
+import { useGlobalContext } from "@/context/AppContext";
 import useLogin from "@/utils/hooks/mutations/auth/useLoginUser";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function Login() {
+	const { setEnableUserFetch } = useGlobalContext();
 	const loginMutation = useLogin();
 	const [loginCreds, setLoginCreds] = useState<{ email: string; password: string }>({
 		email: "",
 		password: "",
 	});
-	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setLoginCreds({
 			...loginCreds,
 			[e.target.name]: e.target.value,
@@ -17,7 +20,11 @@ export default function Login() {
 	const handleLoginFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(loginCreds);
-		loginMutation.mutate(loginCreds);
+		loginMutation.mutateAsync(loginCreds, {
+			onSuccess: () => {
+				setEnableUserFetch(true);
+			},
+		});
 	};
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24 bg-black">
@@ -27,23 +34,23 @@ export default function Login() {
 				className="flex flex-col items-center gap-y-4 group rounded-lg border px-5 py-8 transition-colors  border-neutral-700 shadow-2xl shadow-emerald-500/[0.2]"
 			>
 				<h2 className={`mb-3 text-2xl font-semibold text-white`}>Login</h2>
-				<input
-					type="email"
+				<InputFieldComponent
+					type="text"
 					name="email"
-					className="px-3 py-2 outline-none text-white bg-transparent border border-white/30 rounded-md active-none autofill:bg-transparent"
-					placeholder="xyz@gmail.com"
+					placeholder=""
+					labelValue="Email"
+					required={true}
 					value={loginCreds.email}
-					onChange={handleInputFieldChange}
-					required
+					onChangeFnHandler={handleInputFieldChange}
 				/>
-				<input
+				<InputFieldComponent
 					type="password"
 					name="password"
-					className="px-3 py-2 outline-none text-white bg-transparent border border-white/30 rounded-md"
-					placeholder="password"
+					placeholder=""
+					labelValue="Password"
+					required={true}
 					value={loginCreds.password}
-					onChange={handleInputFieldChange}
-					required
+					onChangeFnHandler={handleInputFieldChange}
 				/>
 				<button
 					type="submit"

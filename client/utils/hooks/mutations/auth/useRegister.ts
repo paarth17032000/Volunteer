@@ -1,16 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/api/auth/_register";
 import { toastMessage } from "@/utils/Toast";
+import { useRouter } from "next/navigation";
 
 const useRegister = () => {
+	const router = useRouter();
 	return useMutation({
 		mutationFn: register,
-		onSuccess: (data) => {
-			console.log(data);
-			toastMessage("user register success", "success");
+		onSuccess: () => {
+			router.push("/login");
+			toastMessage("User registeration successful!", "success");
+			toastMessage("Login to use the app.", "info");
 		},
 		onError: () => {
-			toastMessage("login register failed.", "error");
+			toastMessage("User registeration failed.", "error");
 		},
 	});
 };

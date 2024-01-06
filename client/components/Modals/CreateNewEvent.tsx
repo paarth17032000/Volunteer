@@ -62,26 +62,9 @@ export default function CreateNewEvent({
 				<DialogHeader className="mt-4">
 					<h1 className="font-bold text-center text-2xl">Create New Event</h1>
 					<form
-						// style={{ maxWidth: "700px" }}
 						onSubmit={handleLoginFormSubmit}
 						className="flex flex-col items-center gap-y-6 px-5 py-8"
 					>
-						{/* <div className="relative w-full">
-							<input
-								id="email"
-								name="email"
-								type="text"
-								className="peer w-full px-3 py-2 outline-none text-white bg-transparent border border-white/30 rounded-md placeholder-transparent focus:outline-none "
-								placeholder="john@doe.com"
-							/>
-							<label
-								htmlFor="email"
-								className="absolute left-3 -top-3.5 text-gray-600 text-sm transition-all 
-								peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-placeholder-shown:bg-black peer-placeholder-shown:text-md peer-focus:-top-2.5 peer-focus:text-white peer-focus:text-sm"
-							>
-								Email address
-							</label>
-						</div> */}
 						<InputFieldComponent
 							type="text"
 							name="eventName"

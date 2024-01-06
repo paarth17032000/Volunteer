@@ -1,4 +1,5 @@
 "use client";
+import InputFieldComponent from "@/components/InputFieldComponent";
 import useRegister from "@/utils/hooks/mutations/auth/useRegister";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -15,7 +16,7 @@ export default function Register() {
 		password: "",
 		phoneNumber: "",
 	});
-	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setregisterCreds({
 			...registerCreds,
 			[e.target.name]: e.target.value,
@@ -27,13 +28,49 @@ export default function Register() {
 		registerMutation.mutate(registerCreds);
 	};
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center p-24">
+		<main className="flex min-h-screen flex-col items-center justify-center p-24 bg-black">
 			<form
 				onSubmit={handleregisterFormSubmit}
-				className="flex flex-col items-center gap-y-4 group rounded-lg border border-transparent px-5 py-8 transition-colors border-gray-300 bg-black dark:border-neutral-700 shadow-2xl shadow-emerald-500/[0.2]"
+				className="flex flex-col items-center gap-y-4 group rounded-lg border px-5 py-8 transition-colors  border-neutral-700 shadow-2xl shadow-emerald-500/[0.2]"
 			>
-				<h2 className={`mb-3 text-2xl font-semibold`}>Register</h2>
-				<div className="flex flex-col">
+				<h2 className={`mb-3 text-2xl font-semibold text-white`}>Register</h2>
+				<InputFieldComponent
+					type="text"
+					name="name"
+					placeholder=""
+					labelValue="Name"
+					required={true}
+					value={registerCreds.name}
+					onChangeFnHandler={handleInputFieldChange}
+				/>
+				<InputFieldComponent
+					type="text"
+					name="email"
+					placeholder=""
+					labelValue="Email"
+					required={true}
+					value={registerCreds.email}
+					onChangeFnHandler={handleInputFieldChange}
+				/>
+				<InputFieldComponent
+					type="password"
+					name="password"
+					placeholder=""
+					labelValue="Password"
+					required={true}
+					value={registerCreds.password}
+					onChangeFnHandler={handleInputFieldChange}
+				/>
+				<InputFieldComponent
+					type="text"
+					name="phoneNumber"
+					placeholder=""
+					labelValue="Mobile Number"
+					required={true}
+					value={registerCreds.phoneNumber}
+					onChangeFnHandler={handleInputFieldChange}
+				/>
+				{/* <div className="flex flex-col">
 					<label className="text-left ml-1">Name</label>
 					<input
 						type="text"
@@ -80,7 +117,7 @@ export default function Register() {
 						onChange={handleInputFieldChange}
 						required
 					/>
-				</div>
+				</div> */}
 				<button
 					type="submit"
 					className="border border-white/90 bg-white/90 text-black/90 font-bold w-full rounded-md mt-4 px-4 py-2"

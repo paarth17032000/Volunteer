@@ -84,7 +84,9 @@ export default function UserProfile() {
 								))}
 							</div>
 						) : (
-							<></>
+							<div className="bg-[#141627] p-4 rounded-sm mt-5">
+								No registered events
+							</div>
 						)}
 					</TabsContent>
 					<TabsContent value="register" className="py-4 px-8">
@@ -105,15 +107,25 @@ export default function UserProfile() {
 										</div>
 										<div className="flex items-center gap-4">
 											<div className="text-white/60 font-bold">Host Name</div>
-											<div className="capitalize ">{event.eventHostInfo.name}</div>
+											<div className="capitalize ">
+												{event.eventHostInfo.name}
+											</div>
 										</div>
 										<div className="flex items-center gap-4">
-											<div className="text-white/60 font-bold">Host Email</div>
-											<div className="capitalize ">{event.eventHostInfo.email}</div>
+											<div className="text-white/60 font-bold">
+												Host Email
+											</div>
+											<div className="capitalize ">
+												{event.eventHostInfo.email}
+											</div>
 										</div>
 										<div className="flex items-center gap-4">
-											<div className="text-white/60 font-bold">Host Contact</div>
-											<div className="capitalize ">{event.eventHostInfo.phoneNumber}</div>
+											<div className="text-white/60 font-bold">
+												Host Contact
+											</div>
+											<div className="capitalize ">
+												{event.eventHostInfo.phoneNumber}
+											</div>
 										</div>
 									</div>
 								))}

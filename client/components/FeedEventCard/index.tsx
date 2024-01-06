@@ -1,6 +1,7 @@
+import { useGlobalContext } from "@/context/AppContext";
 import { Event } from "@/utils/interface/interface";
 import React from "react";
-import { FaRegThumbsUp } from "react-icons/fa6";
+import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa6";
 import { MdInfoOutline } from "react-icons/md";
 
 interface IFeedEventCard {
@@ -11,6 +12,10 @@ interface IFeedEventCard {
 }
 
 export default function FeedEventCard({ eventObj, setEventInfo, open, setOpen }: IFeedEventCard) {
+	const { userDetails } = useGlobalContext()
+	// const isEventRegistered = userDetails.eventsRegistered.some(
+	// 	(eventObj) => eventObj.eventId === eventObj.eventId,
+	// );
 	return (
 		<div className="flex flex-row justify-between bg-[#1C1F37] rounded-md md:px-10 px-6 md:py-5 py-4">
 			<div className="flex flex-col">
@@ -36,6 +41,7 @@ export default function FeedEventCard({ eventObj, setEventInfo, open, setOpen }:
 				<div className="flex flex-row gap-x-4 items-center mt-2">
 					<div className="flex items-center gap-x-2">
 						<FaRegThumbsUp className="text-lg cursor-pointer" />
+						<FaThumbsUp className="text-lg cursor-pointer" />
 						{eventObj.upvotes.length}
 					</div>
 
