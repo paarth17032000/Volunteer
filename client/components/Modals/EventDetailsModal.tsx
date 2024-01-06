@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Event } from "@/utils/interface/interface";
 import { useGlobalContext } from "@/context/AppContext";
+import useRegisterEvent from "@/utils/hooks/mutations/events/useRegisterEvent";
 
 interface IEventDetailsModal {
 	open: boolean;
@@ -17,7 +18,15 @@ interface IEventDetailsModal {
 }
 
 export default function EventDetailsModal({ open, setOpen, eventInfo }: IEventDetailsModal) {
-	const { userDetails } = useGlobalContext();
+	const { userId, userDetails } = useGlobalContext();
+	const registerEventMutation = useRegisterEvent();
+	const handleRegisterUserForEvent = () => {
+		registerEventMutation.mutate({
+			userId: userId,
+			eventId: eventInfo._id,
+		});
+		setOpen(!open)
+	};
 	return (
 		<Dialog open={open} onOpenChange={() => setOpen(!open)}>
 			<DialogContent className="bg-black text-white hover:shadow-2xl hover:shadow-emerald-500/[0.2] border-white/[0.5] rounded-xl p-6 border">
@@ -53,16 +62,19 @@ export default function EventDetailsModal({ open, setOpen, eventInfo }: IEventDe
 							</div>
 						</div>
 
-						<button
-							disabled={userDetails.email === eventInfo.eventHostInfo.email}
-							className={`text-center outline-none font-medium mt-5 bg-white/90 text-black px-6 py-3 w-full rounded-md ${
-								userDetails.email === eventInfo.eventHostInfo.email
-									? "cursor-not-allowed"
-									: "cursor-pointer"
-							}`}
-						>
-							Register for Event
-						</button>
+						{userDetails.email !== eventInfo.eventHostInfo.email && (
+							<button
+								onClick={handleRegisterUserForEvent}
+								disabled={userDetails.email === eventInfo.eventHostInfo.email}
+								className={`text-center cursor-pointer outline-none font-medium mt-5 bg-white/90 text-black px-6 py-3 w-full rounded-md ${
+									userDetails.email === eventInfo.eventHostInfo.email
+										? "cursor-not-allowed"
+										: ""
+								}`}
+							>
+								Register for Event
+							</button>
+						)}
 					</div>
 				</div>
 			</DialogContent>

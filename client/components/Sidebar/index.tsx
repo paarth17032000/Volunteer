@@ -69,9 +69,9 @@ export default function Sidebar({ isOpenSidebar, logoutUser }: ISidebar) {
 									<div
 										className={`${
 											pathname === link
-												? "bg-gradient-to-r from-[#00FFFF] via-[#8A76FF] to-[#FF00FF] text-white font-bold"
-												: "text-[#757590]"
-										} flex items-center gap-3 justify-center text-lg whitespace-nowrap hover:bg-primary hover:font-bold px-6 py-2 text-center rounded-[5px] cursor-pointer hover:text-white element-containg-svg`}
+												? "bg-white/90 text-black font-bold"
+												: "text-[#757590] hover:text-white/90"
+										} flex items-center gap-3 justify-center text-lg whitespace-nowrap  hover:font-bold px-6 py-2 text-center rounded-[5px] cursor-pointer element-containg-svg`}
 										key={name}
 									>
 										{/* <div className="w-8">{getSvg(name, pathname === link)}</div> */}

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import useCreateEvent from "@/utils/hooks/mutations/events/useCreateEvent";
 import { useGlobalContext } from "@/context/AppContext";
+import InputFieldComponent from "../InputFieldComponent";
 
 interface ICreateNewEvent {
 	openCreateNewEvent: boolean;
@@ -47,8 +48,9 @@ export default function CreateNewEvent({
 	};
 	const handleLoginFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		createEventMutation.mutate(eventCreds);
-		setOpenCreateNewEvent(!openCreateNewEvent)
+		console.log(eventCreds);
+		// createEventMutation.mutate(eventCreds);
+		// setOpenCreateNewEvent(!openCreateNewEvent);
 	};
 	return (
 		<Dialog
@@ -62,62 +64,88 @@ export default function CreateNewEvent({
 					<form
 						// style={{ maxWidth: "700px" }}
 						onSubmit={handleLoginFormSubmit}
-						className="flex flex-col items-center gap-y-4 px-5 py-8"
+						className="flex flex-col items-center gap-y-6 px-5 py-8"
 					>
-						<input
+						{/* <div className="relative w-full">
+							<input
+								id="email"
+								name="email"
+								type="text"
+								className="peer w-full px-3 py-2 outline-none text-white bg-transparent border border-white/30 rounded-md placeholder-transparent focus:outline-none "
+								placeholder="john@doe.com"
+							/>
+							<label
+								htmlFor="email"
+								className="absolute left-3 -top-3.5 text-gray-600 text-sm transition-all 
+								peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-placeholder-shown:bg-black peer-placeholder-shown:text-md peer-focus:-top-2.5 peer-focus:text-white peer-focus:text-sm"
+							>
+								Email address
+							</label>
+						</div> */}
+						<InputFieldComponent
 							type="text"
 							name="eventName"
-							className="px-3 py-2 outline-none text-white w-full bg-transparent border border-white/30 rounded-md active-none autofill:bg-transparent"
-							placeholder="Clean Drive"
+							placeholder=""
+							labelValue="Event Name"
+							required={true}
 							value={eventCreds.eventName}
-							onChange={handleInputFieldChange}
-							required
+							onChangeFnHandler={handleInputFieldChange}
 						/>
-						<input
+						<InputFieldComponent
 							type="text"
 							name="eventCategory"
-							className="px-3 py-2 outline-none text-white w-full bg-transparent border border-white/30 rounded-md"
-							placeholder="Study"
+							placeholder=""
+							labelValue="Event Category"
+							required={true}
 							value={eventCreds.eventCategory}
-							onChange={handleInputFieldChange}
-							required
+							onChangeFnHandler={handleInputFieldChange}
 						/>
-						<input
+						<InputFieldComponent
 							type="text"
 							name="venue"
-							className="px-3 py-2 outline-none text-white w-full bg-transparent border border-white/30 rounded-md"
-							placeholder="Mumbai"
+							placeholder=""
+							labelValue="Event venue"
+							required={true}
 							value={eventCreds.venue}
-							onChange={handleInputFieldChange}
-							required
+							onChangeFnHandler={handleInputFieldChange}
 						/>
-						<input
+						<InputFieldComponent
 							type="date"
 							name="date"
-							className="px-3 py-2 outline-none text-white w-full bg-transparent border border-white/30 rounded-md"
-							placeholder="10-10-2023"
+							placeholder=""
+							labelValue="Event Date"
+							required={true}
 							value={eventCreds.date}
-							onChange={handleInputFieldChange}
-							required
+							onChangeFnHandler={handleInputFieldChange}
 						/>
-						<input
+						<InputFieldComponent
 							type="text"
 							name="volunteerRequired"
-							className="px-3 py-2 outline-none text-white w-full bg-transparent border border-white/30 rounded-md"
-							placeholder="10"
+							placeholder=""
+							labelValue="Volunteers Required"
+							required={true}
 							value={eventCreds.volunteerRequired}
-							onChange={handleInputFieldChange}
-							required
+							onChangeFnHandler={handleInputFieldChange}
 						/>
-						<textarea
-							rows={5}
-							name="desc"
-							className="px-3 py-2 outline-none text-white w-full bg-transparent border border-white/30 rounded-md"
-							placeholder="Description of the event."
-							value={eventCreds.desc}
-							onChange={handleInputFieldChange}
-							required
-						/>
+						<div className="relative w-full">
+							<textarea
+								id="desc"
+								rows={5}
+								name="desc"
+								className="peer w-full px-3 py-2 outline-none text-white bg-transparent border border-white/30 rounded-md placeholder-transparent focus:outline-none "
+								placeholder=""
+								value={eventCreds.desc}
+								onChange={handleInputFieldChange}
+								required
+							/>
+							<label
+								htmlFor={"desc"}
+								className="absolute left-3 -top-2.5 text-white bg-black px-2 text-sm transition-all 
+								peer-placeholder-shown:text-base peer-placeholder-shown:text-white peer-placeholder-shown:top-2 peer-placeholder-shown:bg-black peer-placeholder-shown:text-md peer-focus:-top-2.5 peer-focus:text-white peer-focus:text-sm"
+							>
+								Event Description
+							</label>
+						</div>
 						<button
 							type="submit"
 							className="border border-white/90 bg-white/90 text-black/90 font-bold w-full rounded-md mt-4 px-4 py-2"

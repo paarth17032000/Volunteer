@@ -36,7 +36,7 @@ export default function FeedEventCard({ eventObj, setEventInfo, open, setOpen }:
 				<div className="flex flex-row gap-x-4 items-center mt-2">
 					<div className="flex items-center gap-x-2">
 						<FaRegThumbsUp className="text-lg cursor-pointer" />
-						{eventObj.volunteers.length}
+						{eventObj.upvotes.length}
 					</div>
 
 					<div

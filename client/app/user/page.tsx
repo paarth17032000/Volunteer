@@ -2,13 +2,18 @@
 import { useGlobalContext } from "@/context/AppContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import React from "react";
+import React, { useState } from "react";
 import { Event, EventsRegistered, User } from "@/utils/interface/interface";
+import EventCancelModal from "@/components/Modals/EventCancelModal";
 
 export default function UserProfile() {
 	const { userDetails } = useGlobalContext();
-	// const [userProgi~]
-	console.log(userDetails);
+	const [openCancelModal, setopenCancelModal] = useState<boolean>(false);
+	const [eventId, setEventId] = useState<string>("");
+	const handleDeleteEvent = (id: string) => {
+		setEventId(id);
+		setopenCancelModal(!openCancelModal);
+	};
 	return (
 		<div className="min-h-screen w-full">
 			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 md:px-24 px-5 mt-36">
@@ -45,7 +50,10 @@ export default function UserProfile() {
 											<div className="capitalize text-white/90 text-2xl font-bold mb-2">
 												{event.eventName}
 											</div>
-											<div className="rounded-md px-3 py-1 bg-red-700 hover:bg-red-600 text-white cursor-pointer">
+											<div
+												onClick={() => handleDeleteEvent(event._id)}
+												className="rounded-md px-3 py-1 bg-red-700 hover:bg-red-600 text-white cursor-pointer"
+											>
 												Cancel Event
 											</div>
 										</div>
@@ -83,50 +91,47 @@ export default function UserProfile() {
 						<h1 className="text-xl text-white font-medium">Events Registered</h1>
 						{userDetails.eventsRegistered != undefined &&
 						userDetails.eventsRegistered.length > 0 ? (
-							<div className="flex flex-col gap-y-6 mt-5">
+							<div className="flex flex-col gap-y-4 mt-5">
 								{userDetails.eventsRegistered.map((event: EventsRegistered) => (
-									<div key={event.eventId} className="bg-[#141627] p-4 rounded-sm">
+									<div
+										key={event.eventId}
+										className="flex flex-col gap-y-1 bg-[#141627] p-4 rounded-sm"
+									>
 										<div className="flex items-center justify-between gap-4">
 											{/* <div className="">Name</div> */}
 											<div className="capitalize text-white/90 text-2xl font-bold mb-2">
 												{event.eventName}
 											</div>
-											<div className="rounded-md px-3 py-1 bg-red-700 hover:bg-red-600 text-white cursor-pointer">
-												Cancel Event
-											</div>
-										</div>
-										{/* <div className="flex items-center gap-4">
-											<div className="text-white/60 font-bold">Category</div>
-											<div className="capitalize ">{event.eventCategory}</div>
 										</div>
 										<div className="flex items-center gap-4">
-											<div className="text-white/60 font-bold">Details</div>
-											<div className="capitalize ">{`${event.date.slice(
-												0,
-												10,
-											)} in ${event.venue}`}</div>
+											<div className="text-white/60 font-bold">Host Name</div>
+											<div className="capitalize ">{event.eventHostInfo.name}</div>
 										</div>
 										<div className="flex items-center gap-4">
-											<div className="text-white/60 font-bold">
-												Volunteer Required
-											</div>
-											<div className="capitalize ">
-												{event.volunteerRequired}
-											</div>
+											<div className="text-white/60 font-bold">Host Email</div>
+											<div className="capitalize ">{event.eventHostInfo.email}</div>
 										</div>
 										<div className="flex items-center gap-4">
-											<div className="text-white/60 font-bold">Category</div>
-											<div className="capitalize ">{event.eventCategory}</div>
-										</div> */}
+											<div className="text-white/60 font-bold">Host Contact</div>
+											<div className="capitalize ">{event.eventHostInfo.phoneNumber}</div>
+										</div>
 									</div>
 								))}
 							</div>
 						) : (
-							<></>
+							<div className="bg-[#141627] p-4 rounded-sm mt-5">
+								No registered events
+							</div>
 						)}
 					</TabsContent>
 				</Tabs>
 			</div>
+			<EventCancelModal
+				eventId={eventId}
+				setEventId={setEventId}
+				openCancelModal={openCancelModal}
+				setopenCancelModal={setopenCancelModal}
+			/>
 		</div>
 	);
 }
