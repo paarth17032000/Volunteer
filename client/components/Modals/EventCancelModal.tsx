@@ -1,9 +1,8 @@
 import React from "react";
-import {
-	Dialog,
-	DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import useDeleteEvent from "@/utils/hooks/mutations/events/useDeleteEvent";
+import { useGlobalContext } from "@/context/AppContext";
+import useGetUserDetails from "@/utils/hooks/queries/useGetUserDetails";
 
 interface IEventCancelModal {
 	eventId: string;
@@ -18,9 +17,14 @@ export default function EventCancelModal({
 	openCancelModal,
 	setopenCancelModal,
 }: IEventCancelModal) {
+	const { accessToken } = useGlobalContext();
+	const { refetchUserDetailsData } = useGetUserDetails(accessToken);
 	const deleteEventMutation = useDeleteEvent();
 	const handleCancelDecision = (deleteEvent: boolean) => {
-		if (deleteEvent) deleteEventMutation.mutate(eventId);
+		if (deleteEvent)
+			deleteEventMutation.mutateAsync(eventId, {
+				onSuccess: () => refetchUserDetailsData(),
+			});
 		setEventId("");
 		setopenCancelModal(!openCancelModal);
 	};

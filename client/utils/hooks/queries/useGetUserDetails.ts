@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserDetails } from "@/api/user/_userDetails";
 
 const useGetUserDetails = (accessToken: string = "", enableFlag: boolean = true) => {
-	const { status, isError, isSuccess, data, isLoading } = useQuery({
+	const { status, isError, isSuccess, data, isLoading, refetch,  } = useQuery({
 		queryKey: ["user"],
 		queryFn: getUserDetails,
 		enabled: accessToken.length > 0 && enableFlag,
@@ -17,6 +17,7 @@ const useGetUserDetails = (accessToken: string = "", enableFlag: boolean = true)
 		userDetailsDataSuccess: isSuccess,
 		userDetailsDataError: isError,
 		userDetailsDataLoading: isLoading,
+		refetchUserDetailsData: refetch,
 	};
 };
 

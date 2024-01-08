@@ -14,6 +14,7 @@ export default function UserProfile() {
 		setEventId(id);
 		setopenCancelModal(!openCancelModal);
 	};
+	console.log(userDetails);
 	return (
 		<div className="min-h-screen w-full">
 			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 md:px-24 px-5 mt-36">

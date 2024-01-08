@@ -4,6 +4,7 @@ import { User } from "@/utils/interface/interface";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface GlobalContextDataType {
+	accessToken: string;
 	userId: string;
 	userDetails: User;
 	setEnableUserFetch: (enableUserFetch: boolean) => void;
@@ -12,29 +13,33 @@ interface GlobalContextDataType {
 const GlobalApplicationContext = createContext<GlobalContextDataType>({} as any);
 
 export const GlobalAppContext = ({ children }: { children: React.ReactNode }) => {
-	const accessToken = document.cookie
-		.split(";") 
+	const accessTokenCookie = document.cookie
+		.split(";")
 		.find((val) => val.slice(0, 13) == " access-token")
 		?.split("=")[1];
-	const [enableUserFetch, setEnableUserFetch] = useState<boolean>(false);
 	const [userId, setUserId] = useState<string>("");
+	const [accessToken, setAccessToken] = useState<string>("");
+	const [enableUserFetch, setEnableUserFetch] = useState<boolean>(false);
 	const [userDetails, setUserDetails] = useState<User>({} as User);
-	const { userDetailsData, userDetailsDataSuccess, userDetailsDataLoading, status } = useGetUserDetails(accessToken,enableUserFetch);
+	const { userDetailsData, userDetailsDataSuccess, status, userDetailsDataLoading } =
+		useGetUserDetails(accessToken, enableUserFetch);
+	console.log(status, userDetailsDataLoading);
 	useEffect(() => {
-		if (userDetailsDataSuccess && userDetailsData != undefined) {
-			console.log('user details set')
+		if (userDetailsDataSuccess && !userDetailsDataLoading && userDetailsData != undefined) {
+			console.log("user details set");
 			setUserDetails(userDetailsData.data);
 			setUserId(userDetailsData.data._id);
 		}
-	}, [userDetailsDataSuccess, status]);
+	}, [userDetailsDataSuccess, userDetailsDataLoading, userDetailsData]);
 
 	useEffect(() => {
-		if (accessToken != undefined && accessToken.length > 0) {
-			setEnableUserFetch(!enableUserFetch);
+		if (accessTokenCookie != undefined && accessTokenCookie.length > 0) {
+			setAccessToken(accessTokenCookie);
 		}
-	}, [accessToken]);
+	}, [accessTokenCookie]);
 
 	const value: GlobalContextDataType = {
+		accessToken,
 		userDetails,
 		userId,
 		setEnableUserFetch,

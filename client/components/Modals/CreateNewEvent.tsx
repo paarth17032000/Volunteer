@@ -10,6 +10,7 @@ import {
 import useCreateEvent from "@/utils/hooks/mutations/events/useCreateEvent";
 import { useGlobalContext } from "@/context/AppContext";
 import InputFieldComponent from "../InputFieldComponent";
+import useGetUserDetails from "@/utils/hooks/queries/useGetUserDetails";
 
 interface ICreateNewEvent {
 	openCreateNewEvent: boolean;
@@ -21,8 +22,9 @@ export default function CreateNewEvent({
 	openCreateNewEvent,
 	setOpenCreateNewEvent,
 }: ICreateNewEvent) {
-	const { userId } = useGlobalContext();
+	const { userId, accessToken } = useGlobalContext();
 	const createEventMutation = useCreateEvent();
+	const { refetchUserDetailsData } = useGetUserDetails(accessToken);
 	const [eventCreds, setEventCreds] = useState<{
 		eventName: string;
 		date: string;
@@ -30,7 +32,6 @@ export default function CreateNewEvent({
 		eventCategory: string;
 		volunteerRequired: string;
 		desc: string;
-		userId: string;
 	}>({
 		eventName: "",
 		date: "",
@@ -38,7 +39,6 @@ export default function CreateNewEvent({
 		eventCategory: "",
 		volunteerRequired: "",
 		desc: "",
-		userId: userId,
 	});
 	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setEventCreds({
@@ -46,11 +46,17 @@ export default function CreateNewEvent({
 			[e.target.name]: e.target.value,
 		});
 	};
+	console.log(userId);
 	const handleLoginFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(eventCreds);
-		// createEventMutation.mutate(eventCreds);
-		// setOpenCreateNewEvent(!openCreateNewEvent);
+		createEventMutation.mutateAsync(
+			{ ...eventCreds, userId },
+			{
+				onSuccess: () => refetchUserDetailsData(),
+			},
+		);
+		setOpenCreateNewEvent(!openCreateNewEvent);
 	};
 	return (
 		<Dialog
