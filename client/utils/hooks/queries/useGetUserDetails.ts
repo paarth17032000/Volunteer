@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserDetails } from "@/api/user/_userDetails";
 
-const useGetUserDetails = (enableFlag: boolean) => {
+const useGetUserDetails = (accessToken: string = "", enableFlag: boolean = true) => {
 	const { status, isError, isSuccess, data, isLoading } = useQuery({
 		queryKey: ["user"],
 		queryFn: getUserDetails,
-		enabled: enableFlag,
+		enabled: accessToken.length > 0 && enableFlag,
 		retry: false,
 		staleTime: Infinity,
 	});

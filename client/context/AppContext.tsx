@@ -19,7 +19,7 @@ export const GlobalAppContext = ({ children }: { children: React.ReactNode }) =>
 	const [enableUserFetch, setEnableUserFetch] = useState<boolean>(false);
 	const [userId, setUserId] = useState<string>("");
 	const [userDetails, setUserDetails] = useState<User>({} as User);
-	const { userDetailsData, userDetailsDataSuccess, userDetailsDataLoading, status } = useGetUserDetails(enableUserFetch);
+	const { userDetailsData, userDetailsDataSuccess, userDetailsDataLoading, status } = useGetUserDetails(accessToken,enableUserFetch);
 	useEffect(() => {
 		if (userDetailsDataSuccess && userDetailsData != undefined) {
 			console.log('user details set')
