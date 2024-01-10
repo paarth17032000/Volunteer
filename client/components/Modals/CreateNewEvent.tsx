@@ -62,7 +62,6 @@ export default function CreateNewEvent({
 			open={openCreateNewEvent}
 			onOpenChange={() => setOpenCreateNewEvent(!openCreateNewEvent)}
 		>
-			{/* <DialogTrigger>Open</DialogTrigger> */}
 			<DialogContent className="bg-black text-white/90 hover:shadow-2xl hover:shadow-emerald-500/[0.2] border-white/[0.5] rounded-xl p-6 border  ">
 				<DialogHeader className="mt-4">
 					<h1 className="font-bold text-center text-2xl">Create New Event</h1>
