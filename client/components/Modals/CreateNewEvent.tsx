@@ -46,7 +46,6 @@ export default function CreateNewEvent({
 			[e.target.name]: e.target.value,
 		});
 	};
-	console.log(userId);
 	const handleLoginFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(eventCreds);
