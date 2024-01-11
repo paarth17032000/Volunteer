@@ -3,7 +3,7 @@ import { useGlobalContext } from "@/context/AppContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import React, { useState } from "react";
-import { Event, EventsRegistered, User } from "@/utils/interface/interface";
+import { Event, EventsRegistered } from "@/utils/interface/interface";
 import EventCancelModal from "@/components/Modals/EventCancelModal";
 
 export default function UserProfile() {
