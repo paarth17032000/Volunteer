@@ -33,8 +33,8 @@ export default function Feed() {
 	const [openCreateNewEvent, setOpenCreateNewEvent] = useState<boolean>(false);
 	const [eventInfo, setEventInfo] = useState<Event>();
 	const { allEventsData } = useGetAllEvents();
-	// console.log(allEventsData);
-	const { userId } = useGlobalContext();
+	
+	// const { userId } = useGlobalContext();
 	return (
 		<div className="min-h-screen w-full">
 			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 md:px-24 px-4 py-3">
