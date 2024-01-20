@@ -37,7 +37,7 @@ export default function Feed() {
 	// const { userId } = useGlobalContext();
 	return (
 		<div className="min-h-screen w-full">
-			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 md:px-24 px-4 py-3">
+			<div className="flex lg:flex-row flex-col lg:items-center lg:gap-24 gap-4 justify-between mt-4 sm:px-12 lg:px-24 px-4 py-3">
 				<input
 					name="search"
 					type="text"
@@ -54,7 +54,7 @@ export default function Feed() {
 					</div>
 				</div>
 			</div>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-10 my-10 mx-4 md:px-24 md:py-5">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 my-10 mx-4 sm:px-12 lg:px-24 md:py-5">
 				{allEventsData?.data != undefined &&
 					allEventsData.data.map((eventObj: any) => (
 						<FeedEventCard

@@ -19,7 +19,7 @@ export interface Event {
 	date: string;
 	venue: string;
 	desc: string;
-	upvotes: string;
+	upvotes: string[];
 }
 
 export interface EventsRegistered {

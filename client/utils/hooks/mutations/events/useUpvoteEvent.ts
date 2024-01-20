@@ -6,8 +6,8 @@ const useUpvoteEvent = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: upvoteEvent,
-		onSuccess: (data) => {
-			queryClient.invalidateQueries({ queryKey: ["user"] });
+		onSuccess: () => {
+			// queryClient.invalidateQueries({ queryKey: ["user"] });
 			queryClient.invalidateQueries({ queryKey: ["events"] });
 			toastMessage("Event is upvoted successfully!", "success");
 		},

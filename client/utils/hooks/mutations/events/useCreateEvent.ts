@@ -6,7 +6,7 @@ const useCreateEvent = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: createEvent,
-		onSuccess: (data) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["user"] });
 			queryClient.invalidateQueries({ queryKey: ["events"] });
 			toastMessage("Event is created successfully!", "success");

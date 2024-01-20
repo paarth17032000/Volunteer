@@ -72,11 +72,10 @@ export default function EventDetailsModal({ open, setOpen, eventInfo }: IEventDe
 							</div>
 						</div>
 
-						{userDetails.email !== eventInfo.eventHostInfo.email &&
-							!isEventRegistered && (
+						{userDetails.email !== eventInfo.eventHostInfo.email ? (
+							!isEventRegistered ? (
 								<button
 									onClick={handleRegisterUserForEvent}
-									disabled={userDetails.email === eventInfo.eventHostInfo.email}
 									className={`text-center cursor-pointer outline-none font-medium mt-5 bg-white/90 text-black px-6 py-3 w-full rounded-md ${
 										userDetails.email === eventInfo.eventHostInfo.email
 											? "cursor-not-allowed"
@@ -85,7 +84,20 @@ export default function EventDetailsModal({ open, setOpen, eventInfo }: IEventDe
 								>
 									Register for Event
 								</button>
-							)}
+							) : (
+								<button
+									onClick={handleRegisterUserForEvent}
+									disabled={true}
+									className={`text-center cursor-not-allowed outline-none font-medium mt-5 bg-white/90 text-black px-6 py-3 w-full rounded-md ${
+										userDetails.email === eventInfo.eventHostInfo.email
+											? "cursor-not-allowed"
+											: ""
+									}`}
+								>
+									Already registered
+								</button>
+							)
+						) : null}
 					</div>
 				</div>
 			</DialogContent>

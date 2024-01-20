@@ -1,4 +1,5 @@
 import { useGlobalContext } from "@/context/AppContext";
+import useUpvoteEvent from "@/utils/hooks/mutations/events/useUpvoteEvent";
 import { Event } from "@/utils/interface/interface";
 import React from "react";
 import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa6";
@@ -12,10 +13,18 @@ interface IFeedEventCard {
 }
 
 export default function FeedEventCard({ eventObj, setEventInfo, open, setOpen }: IFeedEventCard) {
-	const { userDetails } = useGlobalContext()
+	const { userDetails, userId } = useGlobalContext();
+	const upvoteMutation = useUpvoteEvent();
 	// const isEventRegistered = userDetails.eventsRegistered.some(
 	// 	(eventObj) => eventObj.eventId === eventObj.eventId,
 	// );
+	const upvoted = eventObj.upvotes.some((id) => id === userId);
+	const handleUpvote = (eventId: string) => {
+		upvoteMutation.mutate({
+			eventId,
+			userId,
+		});
+	};
 	return (
 		<div className="flex flex-row justify-between bg-[#1C1F37] rounded-md md:px-10 px-6 md:py-5 py-4">
 			<div className="flex flex-col">
@@ -39,9 +48,15 @@ export default function FeedEventCard({ eventObj, setEventInfo, open, setOpen }:
 				</div>
 
 				<div className="flex flex-row gap-x-4 items-center mt-2">
-					<div className="flex items-center gap-x-2">
-						<FaRegThumbsUp className="text-lg cursor-pointer" />
-						<FaThumbsUp className="text-lg cursor-pointer" />
+					<div
+						className="flex items-center gap-x-2"
+						onClick={() => handleUpvote(eventObj._id)}
+					>
+						{upvoted ? (
+							<FaThumbsUp className="text-lg cursor-pointer" />
+						) : (
+							<FaRegThumbsUp className="text-lg cursor-pointer" />
+						)}
 						{eventObj.upvotes.length}
 					</div>
 
