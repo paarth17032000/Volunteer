@@ -1,27 +1,8 @@
-"use client";
-import { ChangeEvent, FormEvent, useState } from "react";
-
 import React from "react";
+import Link from "next/link";
 import { CardBody, CardContainer, CardItem } from "@/components/Card";
 
-import Link from "next/link";
-
 export default function Home() {
-	const [loginCreds, setLoginCreds] = useState<{ email: string; password: string }>({
-		email: "",
-		password: "",
-	});
-	const handleInputFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setLoginCreds({
-			...loginCreds,
-			[e.target.name]: e.target.value,
-		});
-	};
-	const handleLoginFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		console.log(loginCreds);
-	};
-
 	return (
 		<main className="flex flex-col md:flex-row min-h-screen gap-0 md:gap-x-8 items-center justify-center p-24 bg-black">
 			<Link href={"/login"}>

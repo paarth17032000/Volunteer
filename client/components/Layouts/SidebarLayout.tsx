@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode, useState } from "react";
-import Navbar from "../Navbar";
+// import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import { useRouter } from "next/navigation";
 import { toastMessage } from "@/utils/Toast";

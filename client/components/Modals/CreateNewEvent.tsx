@@ -2,10 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog";
 import useCreateEvent from "@/utils/hooks/mutations/events/useCreateEvent";
 import { useGlobalContext } from "@/context/AppContext";

@@ -5,28 +5,6 @@ import FeedEventCard from "@/components/FeedEventCard";
 import EventDetailsModal from "@/components/Modals/EventDetailsModal";
 import CreateNewEvent from "@/components/Modals/CreateNewEvent";
 import useGetAllEvents from "@/utils/hooks/queries/useGetAllEvents";
-import { useGlobalContext } from "@/context/AppContext";
-
-const dummy = [
-	{
-		eventHostInfo: {
-			name: "Anurag",
-			email: "anurag@gmail.com",
-			phoneNumber: 6746384901,
-		},
-		_id: "6584a7921fc66a6680ac2951",
-		eventName: "disco Party",
-		userId: "6584a7671fc66a6680ac294d",
-		eventCategory: "disco",
-		volunteerRequired: 8,
-		volunteers: [],
-		date: "2023-12-31T08:00:00.000Z",
-		venue: "Banglore",
-		desc: "We will be doing a disco hard",
-		upvotes: [],
-		__v: 0,
-	},
-];
 
 export default function Feed() {
 	const [open, setOpen] = useState<boolean>(false);
@@ -56,7 +34,7 @@ export default function Feed() {
 			</div>
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 my-10 mx-4 sm:px-12 lg:px-24 md:py-5">
 				{allEventsData?.data != undefined &&
-					allEventsData.data.map((eventObj: any) => (
+					allEventsData.data.map((eventObj: Event) => (
 						<FeedEventCard
 							key={eventObj._id}
 							eventObj={eventObj}

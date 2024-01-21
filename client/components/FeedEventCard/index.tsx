@@ -13,7 +13,7 @@ interface IFeedEventCard {
 }
 
 export default function FeedEventCard({ eventObj, setEventInfo, open, setOpen }: IFeedEventCard) {
-	const { userDetails, userId } = useGlobalContext();
+	const {  userId } = useGlobalContext();
 	const upvoteMutation = useUpvoteEvent();
 	// const isEventRegistered = userDetails.eventsRegistered.some(
 	// 	(eventObj) => eventObj.eventId === eventObj.eventId,

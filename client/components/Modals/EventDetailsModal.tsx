@@ -2,15 +2,10 @@ import React from "react";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Event } from "@/utils/interface/interface";
 import { useGlobalContext } from "@/context/AppContext";
 import useRegisterEvent from "@/utils/hooks/mutations/events/useRegisterEvent";
-import useGetUserDetails from "@/utils/hooks/queries/useGetUserDetails";
 
 interface IEventDetailsModal {
 	open: boolean;
