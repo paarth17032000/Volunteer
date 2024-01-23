@@ -46,7 +46,6 @@ export default function UserProfile() {
 								{userDetails.eventsCreated.map((event: Event) => (
 									<div key={event._id} className="bg-[#141627] p-4 rounded-sm">
 										<div className="flex items-center justify-between gap-4">
-											{/* <div className="">Name</div> */}
 											<div className="capitalize text-white/90 text-2xl font-bold mb-2">
 												{event.eventName}
 											</div>
