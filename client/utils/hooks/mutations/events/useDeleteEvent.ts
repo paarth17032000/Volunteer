@@ -7,7 +7,6 @@ const useDeleteEvent = () => {
 	return useMutation({
 		mutationFn: deleteEvent,
 		onSuccess: () => {
-			// queryClient.invalidateQueries({ queryKey: ["user"] });
 			queryClient.invalidateQueries({ queryKey: ["events"] });
 			toastMessage("Event is cancelled successfully!", "success");
 		},
